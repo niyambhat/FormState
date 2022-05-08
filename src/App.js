@@ -1,41 +1,31 @@
 import './App.css';
 import React, { useState } from 'react';
-import {produce, pantryItems} from './Data';
-import Itemlist from './Components/Itemlist';
+
 
 function App() {
-const [cart, setCart] = useState([]);
-
-const addItem = (e) =>{
-  setCart((prev)=>[  e.target.value, ...prev])
-} 
-
-const removeItem = (targetIndex)=>{
- setCart((prev)=> prev.filter((item, index) => index !== targetIndex))
+  //login form
+const [formState, setFormState] = useState({});
+const handleChange = ({target})=>{
+  console.log(target)
+  const {name, value} = target;
+  setFormState((prev)=>(
+    //using computed properties here
+    // http://eloquentcode.com/computed-property-names-in-javascript
+    {...prev,
+      [name]:value
+    }
+  ))
 }
 
-//callback test
-// const hello = (ovalue) =>{
-//   alert(ovalue);
-// }
-
-
-  return(
-    <div className="app">
-      <h1>Groccery Cart</h1>
-      {/* <button onClick={()=>hello('great')}></button> */}
-      <ul>
-      {cart.map((cartItem, index)=>(
-        <li key={index} onClick={()=>removeItem(index)} value={cartItem}>{cartItem}</li>
-      ))}
-      </ul>  
-    
-    <h2>Produce</h2>
-    <Itemlist items={produce} onItemClick={addItem}/>
-    <h2>Pantry Items</h2>
-    <Itemlist items={pantryItems} onItemClick={addItem}/>
+return(
+  <div>
+    <form>
+      <input type="email" name="email" onChange={handleChange}/>
+      <input type="password" name="password" onChange={handleChange}/>
+    </form>
   </div>
-  )
+)
+  
 }
 
 export default App;
